@@ -1,0 +1,4 @@
+namespace WorkingWithDates;
+
+Console.Clear();
+
