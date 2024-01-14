@@ -26,11 +26,14 @@ using (var connection = new SqlConnection(connectionString))
     //     }
     // }
 
-    CreateManyCategories(connection);
+    // CreateManyCategories(connection);
     // UpdateCategory(connection);
-    ListCategories(connection);
+    // ListCategories(connection);
     // CreateCategory(connection);
-    ExecuteProcedure(connection);
+    // ExecuteProcedure(connection);
+    // ExecuteReadProcedure(connection);
+    // ExecuteScalar(connection);
+    ExecuteReadView(connection);
 }
 
 
@@ -44,7 +47,6 @@ static void ListCategories(SqlConnection connection)
     }
     
 }
-
 static void CreateCategory(SqlConnection connection)
 {
     var category = new Category();
@@ -79,7 +81,6 @@ static void CreateCategory(SqlConnection connection)
     Console.WriteLine($"{rows} linhas inseridas na tabela Category");
     
 }
-
 static void UpdateCategory(SqlConnection connection)
 {
     var updateQuery = "UPDATE [Category] SET [Title] = @title WHERE [Id] = @id";
@@ -90,7 +91,6 @@ static void UpdateCategory(SqlConnection connection)
     });
     Console.WriteLine($"{rows} registros atualizados");
 }
-
 static void CreateManyCategories(SqlConnection connection)
 {
     var category = new Category();
@@ -145,7 +145,6 @@ static void CreateManyCategories(SqlConnection connection)
     Console.WriteLine($"{rows} linhas inseridas na tabela Category");
     
 }
-
 static void ExecuteProcedure(SqlConnection connection)
 {
     var procedure = "spDeleteStudent";
@@ -154,3 +153,61 @@ static void ExecuteProcedure(SqlConnection connection)
     Console.WriteLine($"{affectedRows} linhas excluidas na tabela Student");
 
 }
+static void ExecuteReadProcedure(SqlConnection connection)
+{
+    var procedure = "spGetCoursesByCategory";
+    var parCategory = new { CategoryId = "25d510c8-3108-44c2-86c5-924d9832aa8c" };
+    var courses  = connection.Query(procedure, parCategory, commandType: CommandType.StoredProcedure);
+
+    foreach (var course in courses)
+    {
+        Console.WriteLine(course.Title);
+    }
+    
+
+}
+static void ExecuteScalar(SqlConnection connection){
+    var category = new Category();
+    category.Title = "Azure Board4";
+    category.Url = "microsoft-azure4";
+    category.Description = "Categoria destinada a serviços azure4";
+    category.Summary = "Board Azure4";
+    category.Order = 18;
+    category.Features = true;
+
+    var insertSql = @"INSERT INTO [Category] 
+                    OUTPUT inserted.[Id]
+                VALUES(NEWID(), 
+                    @Title, 
+                    @Url, 
+                    @Summary, 
+                    @Order, 
+                    @Description, 
+                    @Features)";
+    
+    var id = connection.ExecuteScalar<Guid>(insertSql, new
+    {
+        category.Title,
+        category.Url,
+        category.Summary,
+        category.Order,
+        category.Description,
+        category.Features
+
+    });
+    Console.WriteLine($"{id} inserido na tabela Category");
+    
+}
+
+static void ExecuteReadView(SqlConnection connection)
+{
+    var sql = "SELECT * FROM [vwCourses]";
+
+    var courses = connection.Query(sql);
+    foreach (var item in courses)
+    {
+        Console.WriteLine($"{item.Id} - {item.Title}");
+    }
+}
+
+
