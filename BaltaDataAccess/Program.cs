@@ -33,7 +33,11 @@ using (var connection = new SqlConnection(connectionString))
     // ExecuteProcedure(connection);
     // ExecuteReadProcedure(connection);
     // ExecuteScalar(connection);
-    ExecuteReadView(connection);
+    // ExecuteReadView(connection);
+    // ExecuteOneToOne(connection);
+    // ExecuteOneToMany(connection);
+    // ExecuteLike(connection, "api");
+    ExecuteTransaction(connection);
 }
 
 
@@ -198,7 +202,6 @@ static void ExecuteScalar(SqlConnection connection){
     Console.WriteLine($"{id} inserido na tabela Category");
     
 }
-
 static void ExecuteReadView(SqlConnection connection)
 {
     var sql = "SELECT * FROM [vwCourses]";
@@ -209,5 +212,124 @@ static void ExecuteReadView(SqlConnection connection)
         Console.WriteLine($"{item.Id} - {item.Title}");
     }
 }
+static void ExecuteOneToOne(SqlConnection connection)
+{
+    var sql = @"SELECT * 
+                FROM [CareerItem] 
+                INNER JOIN [Course]
+                ON [CareerItem].[CourseId] = [Course].[Id]";
 
+    var items = connection.Query<CareerItem, Course, CareerItem>(sql,
+        (careerItem, course) =>
+        {
+            careerItem.Course = course;
+            return careerItem;
+        }, splitOn:"Id");
 
+    foreach (var item in items)
+    {
+        Console.WriteLine($"{item.Title} - Curso: {item.Course.Title}");
+    }
+}
+static void ExecuteOneToMany(SqlConnection connection)
+{
+    var sql = @"SELECT
+                    [Career].[Id],
+                    [Career].[Title],
+                    [CareerItem].[CareerId],
+                    [CareerItem].[Title]
+                FROM
+                    [Career]
+                INNER JOIN
+                    [CareerItem] on [CareerItem].[CareerId] = [Career].[Id]
+                ORDER BY [Career].[Title]";
+
+    var careers = new List<Career>();
+    
+    var items = connection.Query<Career, CareerItem, Career>(
+        sql,
+        (career, careerItem) =>
+        {
+            // checar se já tem o item na carreira
+            var car = careers.Where(x => x.Id == career.Id).FirstOrDefault();
+            if (car == null)
+            {
+                //se a carreira não tem esse item, c
+                car = career;
+                car.Items.Add(careerItem);
+                careers.Add(car);
+            }
+            else
+            {
+                car.Items.Add(careerItem);
+            }
+            return career;
+        },
+        splitOn: "CareerId"
+    );
+
+    foreach (var career in careers)
+    {
+        Console.WriteLine($"{career.Title}");
+        foreach (var item in career.Items)
+        {
+            Console.WriteLine($"    -    {item.Title}");
+        }
+    }
+
+}
+static void ExecuteLike(SqlConnection connection, string term)
+{
+    var query = @"SELECT * FROM [Course] WHERE [Title] LIKE @exp";
+
+    var items = connection.Query<Course>(query, new
+    {
+        exp = $"%{term.ToUpper()}%"
+    });
+
+    foreach (var item in items)
+    {
+        Console.WriteLine($"{item.Title}");
+    }
+}
+
+static void ExecuteTransaction(SqlConnection connection)
+{
+    var category = new Category();
+    category.Id = Guid.NewGuid();
+    category.Title = "Minha categoria que não quero salvar";
+    category.Url = "amazon";
+    category.Description = "Categoria destinada a serviços de AWS";
+    category.Summary = "AWS Cloud";
+    category.Order = 8;
+    category.Features = false;
+
+    var insertSql = @"INSERT INTO [Category] 
+                VALUES(@Id, 
+                    @Title, 
+                    @Url, 
+                    @Summary, 
+                    @Order, 
+                    @Description, 
+                    @Features)";
+
+    connection.Open();
+    using (var transaction = connection.BeginTransaction())
+    {
+        var rows = connection.Execute(insertSql, new
+        {
+            category.Id,
+            category.Title,
+            category.Url,
+            category.Summary,
+            category.Order,
+            category.Description,
+            category.Features
+
+        }, transaction);
+        // transaction.Commit();
+        transaction.Rollback();
+        Console.WriteLine($"{rows} linhas inseridas na tabela Category");
+    }
+}
+    
