@@ -14,4 +14,16 @@
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Screens\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Screens\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Screens\**" />
+  </ItemGroup>
+
 </Project>
