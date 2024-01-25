@@ -12,7 +12,9 @@ connection.Open();
 // ReadUser(connection);
 // CreateUser(connection);
 // UpdateUser(connection);
-DeleteUser(connection);
+// DeleteUser(connection);
+// ReadRoles(connection);
+DeleteRole(connection);
 connection.Close();
 
 static void ReadUsers(SqlConnection connection)
@@ -69,4 +71,21 @@ static void DeleteUser(SqlConnection connection)
     var user = repository.Get(4);
     repository.Delete(user);
     Console.WriteLine("Usuário foi excluído com sucesso");
+}
+
+static void ReadRoles(SqlConnection connection)
+{
+    var repository = new RoleRepository(connection);
+    var roles = repository.Get();
+    foreach (var role in roles)
+    {
+        Console.WriteLine(role.Name);
+    }
+}
+
+static void DeleteRole(SqlConnection connection)
+{
+    var repository = new RoleRepository(connection);
+    repository.Delete(1);
+    
 }
