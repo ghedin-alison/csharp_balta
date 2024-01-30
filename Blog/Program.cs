@@ -7,13 +7,13 @@ const string CONNECTION_STRING =
 
 var connection = new SqlConnection(CONNECTION_STRING);
 connection.Open();
-// ReadUsers(connection);
+ReadUsers(connection);
 // ReadUser(connection);
 // CreateUser(connection);
 // UpdateUser(connection);
 // DeleteUser(connection);
 // ReadRoles(connection);
-ReadTags(connection);
+// ReadTags(connection);
 // DeleteRole(connection);
 connection.Close();
 
@@ -25,7 +25,7 @@ static void CreateUser(SqlConnection connection)
     {
         Bio = "Equipe balta.io",
         Email = "silvia@gmail.com",
-        Name = "Silva dos Santos",
+        Name = "Silvia dos Santos",
         Image = "https://image-silvia.jpg",
         PasswordHash = "HASH",
         Slug = "image-silvia-jpg"
@@ -39,7 +39,7 @@ static void ReadUsers(SqlConnection connection)
     var repository = new Repository<User>(connection);
     var users = repository.Get();
     foreach (var user in users)
-        Console.WriteLine(user.Name);
+        Console.WriteLine($"Nome do usuário: {user.Name}");
 }
 static void ReadUser(SqlConnection connection)
 {
