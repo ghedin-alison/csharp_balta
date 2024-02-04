@@ -17,7 +17,6 @@
   <ItemGroup>
     <Compile Remove="Screens\**" />
     <Compile Remove="Repositories\RoleRepository.cs" />
-    <Compile Remove="Repositories\UserRepository.cs" />
     <Compile Remove="Models\Post.cs" />
   </ItemGroup>
 

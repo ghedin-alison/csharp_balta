@@ -7,7 +7,8 @@ const string CONNECTION_STRING =
 
 var connection = new SqlConnection(CONNECTION_STRING);
 connection.Open();
-ReadUsers(connection);
+// ReadUsers(connection);
+ReadUsersWithRoles(connection);
 // ReadUser(connection);
 // CreateUser(connection);
 // UpdateUser(connection);
@@ -69,6 +70,19 @@ static void DeleteUser(SqlConnection connection)
     var user = repository.Get(4);
     repository.Delete(user);
     Console.WriteLine("Usuário foi excluído com sucesso");
+}
+static void ReadUsersWithRoles(SqlConnection connection)
+{
+    var repository = new UserRepository(connection);
+    var items = repository.GetWithRoles();
+    foreach (var item in items)
+    {
+        Console.WriteLine($"Nome do usuário: {item.Name}");
+        foreach (var role in item.Roles)
+        {
+            Console.WriteLine($" - {role.Name}");
+        }
+    }
 }
 
 // CRUD Roles
