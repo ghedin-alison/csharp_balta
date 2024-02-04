@@ -7,10 +7,10 @@ namespace Blog.Repositories;
 
 public class UserRepository : Repository<User>
 {
-    // variavel privada
-    private readonly SqlConnection _connection;
-    // metodo construtor com somente um parametro
-    public UserRepository(SqlConnection connection) : base(connection) => _connection = connection;
+    // // variavel privada
+    // private readonly SqlConnection _connection;
+    // // metodo construtor com somente um parametro
+    // public UserRepository(SqlConnection connection) : base(connection) => _connection = connection;
 
     // One to Many específico
     public List<User> GetWithRoles()
@@ -26,7 +26,7 @@ public class UserRepository : Repository<User>
                     LEFT JOIN [UserRole] ON [UserRole].[UserId] = [User].[Id]
                     LEFT JOIN [Role] On [UserRole].[RoleId] = [Role].[Id]";
         var users = new List<User>();
-        var items = _connection.Query<User, Role, User>(query, (user, role) =>
+        var items = Database.Connection.Query<User, Role, User>(query, (user, role) =>
         {
             var usr = users.FirstOrDefault(x => x.Id == user.Id);
             if (usr == null)

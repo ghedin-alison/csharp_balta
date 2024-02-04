@@ -15,9 +15,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Screens\**" />
     <Compile Remove="Repositories\RoleRepository.cs" />
     <Compile Remove="Models\Post.cs" />
+    <Compile Remove="Screens\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\UserServices\" />
   </ItemGroup>
 
   <ItemGroup>
