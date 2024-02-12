@@ -11,10 +11,8 @@ public class Post
     public string Slug { get; set; }    
     public DateTime CreateDate { get; set; }    
     public DateTime LastUpdateDate { get; set; }    
-    
-    public int CategoryId { get; set; }
     public Category Category { get; set; } // Traz a lista de Categorias com o nome de Category nessa tabela(subset)
-    
-    public int AuthorId { get; set; }
     public User Author { get; set; } // Traz a lista de Usuários com o nome de Author nessa tabela(subset)
+    public IList<Tag> Tags { get; set; }
+    
 }
