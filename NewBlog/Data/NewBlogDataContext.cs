@@ -13,6 +13,5 @@ public class NewBlogDataContext : DbContext
     {
         optionsBuilder.UseSqlServer(
             "Server=localhost,1433;Database=Blog;User ID=sa;password=1q2w3e4r@#$;Encrypt=False");
-        optionsBuilder.LogTo(Console.WriteLine);
     }
 }

@@ -2,11 +2,8 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NewBlog.Models;
-[Table("Post")]
 public class Post
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }    
     public string Title { get; set; }    
     public string Summary { get; set; }    
@@ -15,11 +12,9 @@ public class Post
     public DateTime CreateDate { get; set; }    
     public DateTime LastUpdateDate { get; set; }    
     
-    [ForeignKey("CategoryId")]
     public int CategoryId { get; set; }
     public Category Category { get; set; } // Traz a lista de Categorias com o nome de Category nessa tabela(subset)
     
-    [ForeignKey("AtuhorId")]
     public int AuthorId { get; set; }
     public User Author { get; set; } // Traz a lista de Usuários com o nome de Author nessa tabela(subset)
 }
