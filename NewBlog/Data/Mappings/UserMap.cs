@@ -6,7 +6,6 @@ namespace NewBlog.Data.Mappings;
 
 public class UserMap: IEntityTypeConfiguration<User>
 {
-    private IEntityTypeConfiguration<User> _entityTypeConfigurationImplementation;
     public void Configure(EntityTypeBuilder<User> builder)
     {
         builder.ToTable("User");//Tabela
@@ -72,6 +71,5 @@ public class UserMap: IEntityTypeConfiguration<User>
                     .HasConstraintName("FK_UserRole_UserId")
                     .OnDelete(DeleteBehavior.Cascade)
             );
-        _entityTypeConfigurationImplementation.Configure(builder);
     }
 }

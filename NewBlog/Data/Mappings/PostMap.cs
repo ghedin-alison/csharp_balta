@@ -6,7 +6,6 @@ namespace NewBlog.Data.Mappings;
 
 public class PostMap : IEntityTypeConfiguration<Post>
 {
-    private IEntityTypeConfiguration<Post> _entityTypeConfigurationImplementation;
     public void Configure(EntityTypeBuilder<Post> builder)
     {
         builder.ToTable("Post");//Tabela
@@ -78,6 +77,5 @@ public class PostMap : IEntityTypeConfiguration<Post>
                     .HasConstraintName("FK_PostTag_TagId")
                     .OnDelete(DeleteBehavior.Cascade)
             );
-        _entityTypeConfigurationImplementation.Configure(builder);
     }
 }

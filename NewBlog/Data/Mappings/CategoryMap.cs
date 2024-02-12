@@ -6,7 +6,6 @@ namespace NewBlog.Data.Mappings;
 
 public class CategoryMap: IEntityTypeConfiguration<Category>
 {
-    private IEntityTypeConfiguration<Category> _entityTypeConfigurationImplementation;
     public void Configure(EntityTypeBuilder<Category> builder)
     {
         //Tabela
@@ -35,6 +34,5 @@ public class CategoryMap: IEntityTypeConfiguration<Category>
         builder.HasIndex(x => x.Slug, "IX_Category_Slug")
             .IsUnique();
         
-        _entityTypeConfigurationImplementation.Configure(builder);
     }
 }
