@@ -80,16 +80,28 @@ using (var context = new NewBlogDataContext())
     // foreach (var item in posts)
     //     Console.WriteLine($"{item.Title}");
     
-    var posts = context
+    // var posts = context
+    //     .Posts
+    //     .AsNoTracking()
+    //     //Include é utilizado pra trazer listas de outras tabelas. Utiizar ? caso essa lista esteja vazia
+    //     //Include sempre antes do order, sempre antes do wheere, funciona como inner/alter join
+    //     .Include(x=>x.Author)
+    //     .Include(x=>x.Category)
+    //         //.ThenInclude(x=>x.XPTO) se houvesse uma tabela filha de categoria, sem relacionamento com posts, poderia busar suas info dessa maneira
+    //     .OrderByDescending(x=>x.LastUpdateDate)
+    //     .ToList();
+    // foreach (var item in posts)
+    //     Console.WriteLine($"{item.Title} escrito por {item.Author?.Name} em {item.Category?.Name}"); // é uma boa prática utilizar Null Safe
+
+    // Atualização de subconjunto. Através de post vamos atualizar o nome do autor/usuario
+    // Não tem o AsNoTracking, já que é update
+    var post = context
         .Posts
-        .AsNoTracking()
-        //Include é utilizado pra trazer listas de outras tabelas. Utiizar ? caso essa lista esteja vazia
-        //Include sempre antes do order, sempre antes do wheere, funciona como inner/alter join
-        .Include(x=>x.Author)
-        .Include(x=>x.Category)
-            //.ThenInclude(x=>x.XPTO) se houvesse uma tabela filha de categoria, sem relacionamento com posts, poderia busar suas info dessa maneira
-        .OrderByDescending(x=>x.LastUpdateDate)
-        .ToList();
-    foreach (var item in posts)
-        Console.WriteLine($"{item.Title} escrito por {item.Author?.Name} em {item.Category?.Name}"); // é uma boa prática utilizar Null Safe
+        .Include(x => x.Author)
+        .Include(x => x.Category)
+        .OrderByDescending(x => x.LastUpdateDate)
+        .FirstOrDefault(); // Pegando o primeiro item
+    post.Author.Name = "Jão";
+    context.Posts.Update(post);
+    context.SaveChanges();
 }
