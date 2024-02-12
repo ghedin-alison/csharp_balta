@@ -60,7 +60,24 @@ public class PostMap : IEntityTypeConfiguration<Post>
             .WithMany(x => x.Posts)
             .HasConstraintName("FK_Post_Category")
             .OnDelete(DeleteBehavior.ClientCascade);
-        
+
+        builder.HasMany(x => x.Tags)
+            .WithMany(x => x.Posts)
+            .UsingEntity<Dictionary<string, object>>( //criando uma tabela de relacionamento PostTag virtual, sem necessidade de implementar fisicamente
+                "PostTag",
+                post => post
+                    .HasOne<Tag>()
+                    .WithMany()
+                    .HasForeignKey("PostId")
+                    .HasConstraintName("FK_PostTag_PostId")
+                    .OnDelete(DeleteBehavior.Cascade),
+                tag => tag
+                    .HasOne<Post>()
+                    .WithMany()
+                    .HasForeignKey("TagId")
+                    .HasConstraintName("FK_PostTag_TagId")
+                    .OnDelete(DeleteBehavior.Cascade)
+            );
         _entityTypeConfigurationImplementation.Configure(builder);
     }
 }
