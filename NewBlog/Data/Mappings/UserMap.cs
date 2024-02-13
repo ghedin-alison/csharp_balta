@@ -25,6 +25,12 @@ public class UserMap: IEntityTypeConfiguration<User>
             .HasColumnName("Slug")
             .HasColumnType("VARCHAR")
             .HasMaxLength(80);
+
+        builder.Property(x => x.GitHub)
+            .IsRequired() //Not Null
+            .HasColumnName("Github")
+            .HasColumnType("VARCHAR")
+            .HasMaxLength(80);
         
         builder.Property(x => x.Bio)
             .IsRequired() //Not Null

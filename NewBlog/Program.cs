@@ -4,29 +4,26 @@ using Microsoft.EntityFrameworkCore;
 using NewBlog.Data;
 using NewBlog.Models;
 
-using var context = new NewBlogDataContext();
-
-// context.Users.Add(new User
+// var user = new User
 // {
-//     Bio = "Developer Cobol and Python",
-//     Email = "ghedin@gmail.com",
-//     Image = "foto-alison",
-//     Slug = "alison-dev",
-//     Name = "Alison J",
-//     PasswordHash = "1234"
-// });  
-var user = context.Users.FirstOrDefault();
-var post = new Post
-{
-    Author = user,
-    Body = "Meu artigo",
-    Category = new Category { Name = "Flexible", Slug = "flex"},
-    CreateDate = DateTime.Now,
-    Slug = "meu-artigo",
-    Summary = "Nesse artigo vamos conferir...",
-    Title = "Teste de post"
-};
+//     Name = "Francieli",
+//     Bio = "Banking Analyst",
+//     Email = "fran@gmail.com",
+//     GitHub = "github.com/fran-ghedin",
+//     Image = "foto-fran",
+//     PasswordHash = "123@#$789",
+//     Slug = "teste-fran"
+// };
+//     
+Consulta();
 
-context.Posts.Add(post);
-context.SaveChanges();
-Console.WriteLine($"Post adicionado com sucesso {post.Id}");
+static async void Consulta()
+{
+    using var context = new NewBlogDataContext();
+    var posts = await GetPosts(context);
+    Console.WriteLine($"Posts: {posts.Count()}");
+    Console.WriteLine("Finalizado!");
+}
+
+static async Task<List<Post>> GetPosts(NewBlogDataContext context)
+    => await context.Posts.ToListAsync();

@@ -13,7 +13,7 @@ public class NewBlogDataContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer(
-            "Server=localhost,1433;Database=Blog;User ID=sa;password=1q2w3e4r@#$;Encrypt=False");
+            "Server=localhost,1433;Database=NewBlogMigrate;User ID=sa;password=1q2w3e4r@#$;Encrypt=False");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
