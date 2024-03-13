@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebBlog.Data;
 using WebBlog.Models;
+using WebBlog.ViewModels;
 
 namespace WebBlog.Controllers;
 
@@ -33,14 +34,21 @@ public class CategoryController: ControllerBase
     //Post
     [HttpPost("v1/categories")]
     public async Task<IActionResult> PostAsync(
-        [FromBody] Category model,
+        [FromBody] EditorCategoryViewModel model,
         [FromServices] BlogDataContext context)
     {
 
         try
         {
-            await context.Categories.AddAsync(model);
+            var category = new Category
+            {
+                Name = model.Name,
+                Slug = model.Name.ToLower()
+            };
+            await context.Categories.AddAsync(category);
             await context.SaveChangesAsync();
+            
+            return Created($"v1/categories/{category.Id}", category);
         }
         catch (DbUpdateException e)
         {
@@ -50,20 +58,21 @@ public class CategoryController: ControllerBase
         {
             return StatusCode(500, "05XA2 - Falha interna no servidor");
         }
-        
-        return Created($"v1/categories/{model.Id}", model);
     }
     
     //Put
     [HttpPut("v1/categories/{id:int}")]
     public async Task<IActionResult> PutAsync(
         [FromRoute] int id,
-        [FromBody] Category model,
+        [FromBody] EditorCategoryViewModel model,
         [FromServices] BlogDataContext context)
     {
         try
         {
             var category = await context.Categories.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (category == null)
+                return NotFound();
         
             category.Name = model.Name;
             category.Slug = model.Slug;
@@ -71,7 +80,7 @@ public class CategoryController: ControllerBase
             context.Categories.Update(category);
             await context.SaveChangesAsync();
 
-            return Ok(model);
+            return Ok(category);
         }
         catch (Exception e)
         {
