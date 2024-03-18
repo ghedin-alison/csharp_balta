@@ -9,3 +9,9 @@
 - adicionar o pacote SqlServer e Design
 - executar migrations
 - atualizar database
+
+# Token
+ - Criar a classe Token Service
+ - instalar pacotes:<br>
+        - Microsoft.AspNetCore.Authentication<br>
+        - Microsoft.AspNetCore.Authentication.JwtBearer<br>
