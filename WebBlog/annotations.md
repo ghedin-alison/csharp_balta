@@ -15,3 +15,4 @@
  - instalar pacotes:<br>
         - Microsoft.AspNetCore.Authentication<br>
         - Microsoft.AspNetCore.Authentication.JwtBearer<br>
+ - acessar jwt.io para verificar info do token

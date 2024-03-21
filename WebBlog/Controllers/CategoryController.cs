@@ -67,7 +67,7 @@ public class CategoryController: ControllerBase
             
             return Created($"v1/categories/{category.Id}", new ResultViewModel<Category>(category));
         }
-        catch (DbUpdateException e)
+        catch (DbUpdateException) 
         {
             return StatusCode(500, new ResultViewModel<Category>("05XA1 - Não foi possível incluir a categoria."));
         }
