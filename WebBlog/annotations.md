@@ -16,3 +16,5 @@
         - Microsoft.AspNetCore.Authentication<br>
         - Microsoft.AspNetCore.Authentication.JwtBearer<br>
  - acessar jwt.io para verificar info do token
+ - instalar o pacote SecureIdentity pra gerar senha
+        - dotnet add package SecureIdentity
