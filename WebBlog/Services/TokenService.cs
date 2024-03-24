@@ -18,6 +18,7 @@ public class TokenService
             {
                 new Claim(ClaimTypes.Name, "alisonjg"), // User.Identity.Name
                 new Claim(ClaimTypes.Role, "admin"), // User.IsInRole
+                new Claim(ClaimTypes.Role, "user"), // User.IsInRole
             }),
             Expires = DateTime.UtcNow.AddDays(15),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
