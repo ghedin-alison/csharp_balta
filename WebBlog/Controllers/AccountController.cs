@@ -13,7 +13,7 @@ namespace WebBlog.Controllers;
 public class AccountController:ControllerBase
 {
     [HttpPost("v1/accounts/")]
-    public async Task<IActionResult> Post(
+    public async Task<IActionResult> PostAsync(
         [FromBody] RegisterViewModel model,
         [FromServices] BlogDataContext context)
     {
@@ -53,37 +53,36 @@ public class AccountController:ControllerBase
         }
         
     }
-    
+
     [HttpPost("v1/accounts/login")]
-    public async Task<IActionResult> Login(
+    public async Task<IActionResult> LoginAsync(
         [FromBody] LoginViewModel model,
         [FromServices] BlogDataContext context,
         [FromServices] TokenService tokenService)
     {
         if (!ModelState.IsValid)
             return BadRequest(new ResultViewModel<string>(ModelState.GetErrors()));
-!!!Erro Aqui!!
+        
         var user = await context
             .Users
             .AsNoTracking()
             .Include(x => x.Roles)
-            .FirstOrDefault(x => x.Email == model.Email);
+            .FirstOrDefaultAsync(x => x.Email == model.Email);
         
         if (user == null)
-            return StatusCode(401, new ResultViewModel<string>("Usuário ou senha inválido."));
+            return StatusCode(401, new ResultViewModel<string>("Usuário ou senha inválidos."));
 
-        if(!PasswordHasher.Verify(user.Password, model.Password));
-            return StatusCode(401, new ResultViewModel<string>("Usuário ou password inválido."));
-            try
+        if (!PasswordHasher.Verify(user.PasswordHash, model.Password))
+            return StatusCode(401, new ResultViewModel<string>("Usuário ou senha inválidos."));
+        try
+        {
+            var token = tokenService.GenerateToken(user);
+            return Ok(new ResultViewModel<string>(token, errors: null));
+        }
+            catch
             {
-                var token = tokenService.GenerateToken(user);
-                return Ok(new ResultViewModel<string>(token, null));
-            }
-            catch 
-            {
-                return StatusCode(500, new ResultViewModel<string>("0x504 - Falha interna no servidor."));
-                throw;
-            }
+                return StatusCode(500, new ResultViewModel<string>("05X09 - Falha interna no servidor."));
+        }
     }
     
 
