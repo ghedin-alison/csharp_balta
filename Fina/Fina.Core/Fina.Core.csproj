@@ -6,4 +6,18 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Resquests\Response.cs" />
+    <Compile Remove="Requests\Response.cs" />
+    <Compile Remove="Requests\Categories\Transactions\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Requests\Categories\Transactions\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Requests\Categories\Transactions\**" />
+  </ItemGroup>
+
 </Project>
