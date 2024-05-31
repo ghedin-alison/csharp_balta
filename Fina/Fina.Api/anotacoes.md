@@ -18,3 +18,5 @@ builder.Services.AddDbContext<AppDbContext>(x => x.UseSqlServer(connectionString
 
  - no Terminal `dotnet ef migrations add v1`
  - no Terminal `dotnet ef database update`
+ 
+ - Implementar os Handlers no diretório Handlers
