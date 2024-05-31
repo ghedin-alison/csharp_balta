@@ -1,4 +1,6 @@
+using System.Runtime.InteropServices.JavaScript;
 using Fina.Api.Data;
+using Fina.Core.Common;
 using Fina.Core.Enums;
 using Fina.Core.Handlers;
 using Fina.Core.Models;
@@ -83,11 +85,16 @@ public class TransactionHandler(AppDbContext context) : ITransactionHandler
     {
         try
         {
+            request.StartDate ??= DateTime.Now.GetFirstDay();
+            request.EndDate ??= DateTime.Now.GetLastDay();
+            
             //Query
             var query = context
                 .Transactions
                 .AsNoTracking()
-                .Where(x => x.UserId == request.UserId)
+                .Where(x => x.UserId == request.UserId 
+                            && x.CreatedAt >= request.StartDate 
+                            && x.CreatedAt <= request.EndDate)
                 .OrderBy(x => x.Title);
         
             //List
