@@ -20,3 +20,4 @@ builder.Services.AddDbContext<AppDbContext>(x => x.UseSqlServer(connectionString
  - no Terminal `dotnet ef database update`
  
  - Implementar os Handlers no diretório Handlers
+ - No vídeo em 1:42 há uma explicação excelente sobre métodos de busca e performance para paginação.

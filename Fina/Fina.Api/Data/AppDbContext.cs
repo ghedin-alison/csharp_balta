@@ -1,5 +1,4 @@
 using System.Reflection;
-using Fina.Api.Data.Mappings;
 using Fina.Core.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,3 +12,6 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     protected override void OnModelCreating(ModelBuilder modelBuilder)
         => modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 }
+
+//TODO
+//Retornar pra entender essa classe
