@@ -1,3 +1,4 @@
+using Fina.Api.Common.Api;
 using Fina.Core;
 using Fina.Core.Handlers;
 using Fina.Core.Models;
@@ -7,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Fina.Api.Endpoints.Transactions;
 
-public class GetTransactionsByPeriodEndpoint
+public class GetTransactionsByPeriodEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
     {

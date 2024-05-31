@@ -16,7 +16,6 @@ builder.Services.AddTransient<ICategoryHandler, CategoryHandler>();
 builder.Services.AddTransient<ITransactionHandler, TransactionHandler>();
 
 var app = builder.Build();
-app.MapGet("/", () => "Hello!!");
 // app.MapGet("/", (GetCategoryByIdRequest request, ICategoryHandler handler) => handler.GetByIdAsync(request)); funcionamento básico
 
 app.Run();

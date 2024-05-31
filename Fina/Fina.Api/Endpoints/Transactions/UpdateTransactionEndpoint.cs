@@ -1,3 +1,4 @@
+using Fina.Api.Common.Api;
 using Fina.Core.Handlers;
 using Fina.Core.Models;
 using Fina.Core.Requests.Transactions;
@@ -5,7 +6,7 @@ using Fina.Core.Responses;
 
 namespace Fina.Api.Endpoints.Transactions;
 
-public class UpdateTransactionEndpoint
+public class UpdateTransactionEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
     {
