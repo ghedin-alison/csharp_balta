@@ -10,4 +10,4 @@ O desenvolvimento da Solução inicia nesse projeto compartilhado por backend(Fi
 - Os Requests de categoria e transações criados funcionarão como se fosse uma view, mas bem mais simples. Terão validação.
 - Nas responses, como podem ser instanciadas, criamos os construtores. Um pra cada situação de resposta.
 - Criar os handlers, que definirão os contratos usando interfaces
-- 
+- Funcionamento: **Request >> Handler >> Response**

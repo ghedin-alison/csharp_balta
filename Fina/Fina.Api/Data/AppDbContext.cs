@@ -1,4 +1,5 @@
 using System.Reflection;
+using Fina.Api.Data.Mappings;
 using Fina.Core.Models;
 using Microsoft.EntityFrameworkCore;
 
