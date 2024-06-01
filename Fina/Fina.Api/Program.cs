@@ -1,21 +1,26 @@
+using Fina.Api;
+using Fina.Api.Common.Api;
 using Fina.Api.Data;
+using Fina.Api.Endpoints;
 using Fina.Api.Handlers;
 using Fina.Core.Handlers;
 using Fina.Core.Requests.Categories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-
-const string connectionString = 
-    "Server=localhost,1433;Database=Fina;User ID=sa;Password=1q2w3e4r@#$;encrypt=False;";
-
-builder.Services.AddDbContext<AppDbContext>(x => x.UseSqlServer(connectionString));
-// Associando a interface com os handlers
-//                          <o que o ele sabe resolver, como ele vai resolver>
-builder.Services.AddTransient<ICategoryHandler, CategoryHandler>();
-builder.Services.AddTransient<ITransactionHandler, TransactionHandler>();
+//Add tem q ser nessa ordem!
+builder.AddConfiguration();
+builder.AddDataContexts();
+builder.AddCrossOrigin();
+builder.AddDocumentation();
+builder.AddServices();
 
 var app = builder.Build();
-// app.MapGet("/", (GetCategoryByIdRequest request, ICategoryHandler handler) => handler.GetByIdAsync(request)); funcionamento básico
+//Use
+if(app.Environment.IsDevelopment())
+    app.ConfigureDevEnvironment();
+
+app.UseCors(ApiConfiguration.CorsPolicyName);
+app.MapEndpoints();
 
 app.Run();
