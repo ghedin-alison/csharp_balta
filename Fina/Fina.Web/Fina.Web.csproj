@@ -29,12 +29,13 @@
     <Content Remove="wwwroot\css\bootstrap\**" />
     <Content Remove="Layout\NavMenu.razor" />
     <Content Remove="Pages\Categories\**" />
+    <Content Remove="Pages\Categories_\**" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="wwwroot\sample-data\**" />
     <Compile Remove="wwwroot\css\bootstrap\**" />
-    <Compile Remove="Pages\Categories\Create.razor.cs" />
+    <Compile Remove="Pages\Categories_\**" />
     <Compile Remove="Pages\Categories\**" />
   </ItemGroup>
 
@@ -42,12 +43,14 @@
     <EmbeddedResource Remove="wwwroot\sample-data\**" />
     <EmbeddedResource Remove="wwwroot\css\bootstrap\**" />
     <EmbeddedResource Remove="Pages\Categories\**" />
+    <EmbeddedResource Remove="Pages\Categories_\**" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="wwwroot\sample-data\**" />
     <None Remove="wwwroot\css\bootstrap\**" />
     <None Remove="Pages\Categories\**" />
+    <None Remove="Pages\Categories_\**" />
   </ItemGroup>
 
   <ItemGroup>
