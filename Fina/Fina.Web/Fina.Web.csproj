@@ -10,6 +10,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.5" PrivateAssets="all" />
+    <PackageReference Include="MudBlazor" Version="6.19.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,6 +19,35 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Fina.Core\Fina.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Pages\Weather.razor" />
+    <Content Remove="Pages\Counter.razor" />
+    <Content Remove="wwwroot\sample-data\**" />
+    <Content Remove="wwwroot\css\bootstrap\**" />
+    <Content Remove="Layout\NavMenu.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="wwwroot\sample-data\**" />
+    <Compile Remove="wwwroot\css\bootstrap\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="wwwroot\sample-data\**" />
+    <EmbeddedResource Remove="wwwroot\css\bootstrap\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="wwwroot\sample-data\**" />
+    <None Remove="wwwroot\css\bootstrap\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\sample-data\weather.json" />
+    <_ContentIncludedByDefault Remove="wwwroot\css\bootstrap\bootstrap.min.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\css\bootstrap\bootstrap.min.css.map" />
   </ItemGroup>
 
 </Project>
