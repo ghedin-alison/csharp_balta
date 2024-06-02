@@ -11,4 +11,9 @@ Não precisa de .Net instalado no servidor(Github pages por exemplo)
     - Páginas tem @page
     - Layouts tem @inherits LayoutComponentBase
     - Componentes não tem nenhuma referência.
-- 
+- Implementar Handlers para consumir a API
+- No terminal instalar dentro do Fina.Web `dotnet add package Microsoft.Extensions.Http`
+Se for necessário acessar várias APis, configurar e nomear diferentes HttpClient
+- ```cs 
+  builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+  ```

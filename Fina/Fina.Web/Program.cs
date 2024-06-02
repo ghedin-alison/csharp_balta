@@ -1,3 +1,4 @@
+using Fina.Core;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Fina.Web;
@@ -9,6 +10,11 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddMudServices();
 
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+builder.Services
+    .AddHttpClient(WebConfiguration.HttpClientName, opt =>
+    {
+        opt.BaseAddress = new Uri(Configuration.BackendUrl);
+        
+    });
 
 await builder.Build().RunAsync();
