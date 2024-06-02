@@ -7,4 +7,8 @@ Não precisa de .Net instalado no servidor(Github pages por exemplo)
 - Inicia no Program.cs e chama App.razor
 - No terminal instalar dentro do Fina.Web `dotnet add package MudBlazor`
 - Mudblazor gera todo conteudo em tempo de execução
+- Páginas, Layouts e componentes:
+    - Páginas tem @page
+    - Layouts tem @inherits LayoutComponentBase
+    - Componentes não tem nenhuma referência.
 - 
