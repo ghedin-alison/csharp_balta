@@ -17,3 +17,9 @@ Se for necessário acessar várias APis, configurar e nomear diferentes HttpClie
 - ```cs 
   builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
   ```
+- Ao criar as páginas: 
+  - O arquivo .razor não pode ser criado como classe do C#. Criar arquivo comum.
+  - O arquivo .razor.cs deve ser criado como classe do C#.
+  - Esses dois arquivos estarão ligados e o razor se torna razor.g.cs depois de compilado.
+- Cancelamento de Requests no Blazor: Permitir no handler através de um cancelation token(verificar como fazer)
+- 
