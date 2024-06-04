@@ -23,13 +23,13 @@ public class CategoryHandler(IHttpClientFactory httpClientFactory) : ICategoryHa
 
     public async Task<Response<Category?>> DeleteAsync(DeleteCategoryRequest request)
     {
-        var result = await _httpClient.DeleteAsync($"v1/categories{request.Id}");
+        var result = await _httpClient.DeleteAsync($"v1/categories/{request.Id}");
         return await result.Content.ReadFromJsonAsync<Response<Category?>>() 
                ?? new Response<Category?>(null, 400, "Não foi possível excluir a categoria");
     }
 
     public async Task<Response<Category?>> GetByIdAsync(GetCategoryByIdRequest request)
-        => await _httpClient.GetFromJsonAsync<Response<Category?>>($"v1/categories{request.Id}")
+        => await _httpClient.GetFromJsonAsync<Response<Category?>>($"v1/categories/{request.Id}")
         ?? new Response<Category?>(null, 400, "Categoria não encontrada");
     
     public async Task<PagedResponse<List<Category>?>> GetAllAsync(GetAllCategoriesRequest request)
@@ -40,7 +40,7 @@ public class CategoryHandler(IHttpClientFactory httpClientFactory) : ICategoryHa
     public async Task<Response<Category?>> UpdateAsync(UpdateCategoryRequest request)
     {
         //get não precisa de tratamento por isso não temos a variável result
-        var result = await _httpClient.PutAsJsonAsync($"v1/categories{request.Id}", request);
+        var result = await _httpClient.PutAsJsonAsync($"v1/categories/{request.Id}", request);
         return await result.Content.ReadFromJsonAsync<Response<Category?>>() 
                ?? new Response<Category?>(null, 400, "Falha ao alterar a Categoria");
     }
