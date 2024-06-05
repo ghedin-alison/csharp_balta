@@ -11,14 +11,14 @@ using Todo.Data;
 namespace Todo.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240218181837_CreateDatabase")]
-    partial class CreateDatabase
+    [Migration("20240604194929_v1")]
+    partial class v1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "7.0.15");
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.6");
 
             modelBuilder.Entity("Todo.Models.TodoModel", b =>
                 {
@@ -26,18 +26,11 @@ namespace Todo.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("CreateAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("Done")
                         .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("FinishedAt")
-                        .HasColumnType("TEXT");
 
                     b.Property<string>("Title")
                         .IsRequired()
