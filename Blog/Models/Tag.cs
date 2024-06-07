@@ -1,12 +1,13 @@
-using Dapper.Contrib.Extensions;
+using System.Collections.Generic;
 
-namespace Blog.Models;
-
-[Table("[Tag]")]
-public class Tag
+namespace Blog.Models
 {
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public string Slug { get; set; }
+    public class Tag
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = String.Empty;
+        public string Slug { get; set; } = String.Empty;
 
+        public List<Post> Posts { get; set; } = null!;
+    }
 }

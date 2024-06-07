@@ -1,25 +1,18 @@
-using Dapper.Contrib.Extensions;
+using System.Collections.Generic;
 
-namespace Blog.Models;
-
-[Table("[User]")]
-
-public class User
+namespace Blog.Models
 {
-    public User()
+    public class User
     {
-        Roles = new List<Role>();
+        public int Id { get; set; }
+        public string Name { get; set; } = String.Empty;
+        public string Email { get; set; } = String.Empty;
+        public string PasswordHash { get; set; } = String.Empty;
+        public string Image { get; set; } = String.Empty;
+        public string Slug { get; set; } = String.Empty;
+        public string Bio { get; set; } = String.Empty;
+
+        public IList<Post> Posts { get; set; } = null!;
+        public IList<Role> Roles { get; set; } = null!;
     }
-
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public string Email { get; set; }
-    public string PasswordHash { get; set; }
-    public string Bio { get; set; }
-    public string Image { get; set; }
-    public string Slug { get; set; }
-    
-    [Write(false)]
-    public List<Role> Roles { get; set; }
-
 }
