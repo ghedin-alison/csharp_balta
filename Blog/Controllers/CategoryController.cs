@@ -1,7 +1,7 @@
-using System.Reflection.Metadata.Ecma335;
 using Blog.Data;
+using Blog.Extensions;
 using Blog.Models;
-using Microsoft.AspNetCore.Http.HttpResults;
+using Blog.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,24 +13,34 @@ public class CategoryController : ControllerBase
 
     //CREATE
     [HttpPost("v1/categories")]
-    public async Task<IActionResult> CreateCategoryAsync([FromBody]Category categoryModel,
+    public async Task<IActionResult> CreateCategoryAsync(
+        [FromBody]EditorCategoryViewModel categoryModel,
         [FromServices]BlogDataContext context)
     {
 
+        if (!ModelState.IsValid) // Criada extensão do model state pra pegar os erros de validação do ResultViewModel
+            return BadRequest(new ResultViewModel<Category>(ModelState.GetErrors()));
+        
         try
         {
-            await context.Categories.AddAsync(categoryModel);
+            var category = new Category
+            {
+                Id = 0,
+                Name = categoryModel.Name,
+                Slug = categoryModel.Slug.ToLower()
+            };
+            await context.Categories.AddAsync(category);
             await context.SaveChangesAsync();
         
-            return Created($"v1/categories/{categoryModel.Id}", categoryModel);
+            return Created($"v1/categories/{category.Id}", new ResultViewModel<Category>(category));
         }
-        catch (DbUpdateException e)
+        catch (DbUpdateException)
         {
-            return StatusCode(500, "[E0001] - Não foi possível incluir a categoria.");
+            return StatusCode(500, new ResultViewModel<Category>("[E0001] - Não foi possível incluir a categoria."));
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            return StatusCode(500, "[E0002] - Falha interna no servidor");
+            return StatusCode(500, new ResultViewModel<Category>("[E0002] - Falha interna no servidor"));
         }
     }
     
@@ -42,11 +52,11 @@ public class CategoryController : ControllerBase
         try
         {
             var categories  = await context.Categories.ToListAsync();
-            return Ok(categories);
+            return Ok(new ResultViewModel<List<Category>>(categories));
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            return StatusCode(500, "[E0007] - Falha interna no servidor");
+            return StatusCode(500, new ResultViewModel<List<Category>>("[E0007] - Falha interna no servidor"));
         }
     }
     
@@ -60,13 +70,13 @@ public class CategoryController : ControllerBase
             var category  = await context.Categories.FirstOrDefaultAsync(x => x.Id == id );
 
             if (category == null)
-                return NotFound();
+                return NotFound(new ResultViewModel<Category>("Categoria não encontrada."));
         
-            return Ok(category);
+            return Ok(new ResultViewModel<Category>(category));
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            return StatusCode(500, "[E0008] - Falha interna no servidor");
+            return StatusCode(500, new ResultViewModel<Category>("[E0008] - Falha interna no servidor") );
         }
     }
 
@@ -74,9 +84,12 @@ public class CategoryController : ControllerBase
     [HttpPut("v1/categories/{id:int}")]
     public async Task<IActionResult> UpdateCategoryAsync(
         [FromRoute] int id,
-        [FromBody]Category categoryModel,
+        [FromBody]EditorCategoryViewModel categoryModel,
         [FromServices]BlogDataContext context)
     {
+        if (!ModelState.IsValid)
+            return BadRequest(new ResultViewModel<Category>(ModelState.GetErrors()));
+
         try
         {
             var category  = await context
@@ -84,7 +97,7 @@ public class CategoryController : ControllerBase
                 .FirstOrDefaultAsync(x => x.Id == id );
 
             if (category == null)
-                return NotFound();
+                return NotFound(new ResultViewModel<Category>("Categoria não encontrada."));
 
             category.Name = categoryModel.Name;
             category.Slug = categoryModel.Slug;
@@ -92,15 +105,15 @@ public class CategoryController : ControllerBase
             context.Categories.Update(category);
             await context.SaveChangesAsync();
         
-            return Ok(category);
+            return Ok(new ResultViewModel<Category>(category));
         }
-        catch (DbUpdateException e)
+        catch (DbUpdateException)
         {
-            return StatusCode(500, "[E0005] - Não foi possível alterar a categoria.");
+            return StatusCode(500, new ResultViewModel<Category>("[E0005] - Não foi possível alterar a categoria."));
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            return StatusCode(500, "[E0006] - Falha interna no servidor");
+            return StatusCode(500, new ResultViewModel<Category>("[E0006] - Falha interna no servidor"));
         }
     }
 
@@ -117,20 +130,20 @@ public class CategoryController : ControllerBase
                 .FirstOrDefaultAsync(x => x.Id == id );
 
             if (category == null)
-                return NotFound();
+                return NotFound(new ResultViewModel<Category>("Categoria não encontrada."));
 
             context.Categories.Remove(category);
             await context.SaveChangesAsync();
         
-            return Ok(category);
+            return Ok(new ResultViewModel<Category>(category));
         }
-        catch (DbUpdateException e)
+        catch (DbUpdateException)
         {
-            return StatusCode(500, "[E0003] - Não foi possível excluir a categoria.");
+            return StatusCode(500, new ResultViewModel<Category>("[E0003] - Não foi possível excluir a categoria."));
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            return StatusCode(500, "[E0004] - Falha interna no servidor");
+            return StatusCode(500, new ResultViewModel<Category>("[E0004] - Falha interna no servidor"));
         }
     }
 

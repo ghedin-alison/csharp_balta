@@ -14,4 +14,9 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.6" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Controllers\PostController.cs" />
+    <Compile Remove="ViewModels\CreatePostViewModel.cs" />
+  </ItemGroup>
+
 </Project>

@@ -6,15 +6,15 @@ namespace Blog.Models
     public class Post
     {
         public int Id { get; set; }
-        public string Title { get; set; } = String.Empty;
-        public string Summary { get; set; } = String.Empty;
-        public string Body { get; set; } = String.Empty;
-        public string Slug { get; set; } = String.Empty;
+        public string Title { get; set; }
+        public string Summary { get; set; }
+        public string Body { get; set; }
+        public string Slug { get; set; }
         public DateTime CreateDate { get; set; }
-        public DateTime LastUpdateDate { get; set; }
-        public Category Category { get; set; } = null!;
-        public User Author { get; set; } = null!;
+        public DateTime? LastUpdateDate { get; set; }
+        public Category Category { get; set; }
+        public User Author { get; set; }
 
-        public List<Tag> Tags { get; set; } = null!;
+        public List<Tag> Tags { get; set; }
     }
 }
