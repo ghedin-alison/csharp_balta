@@ -1,4 +1,5 @@
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 using Blog.Models;
 using Microsoft.IdentityModel.Tokens;
@@ -14,6 +15,12 @@ public class TokenService
         var key = Encoding.ASCII.GetBytes(Configuration.JwtKey); // encode da chave
         var tokenDescriptor = new SecurityTokenDescriptor
         {
+            Subject = new ClaimsIdentity(new Claim[]
+            {
+                new (ClaimTypes.Name, "alisonjghedin"), //User.Identity.Name
+                new (ClaimTypes.Role, "user"), //User.IsInRole
+                new (ClaimTypes.Role, "admin"), //User.IsInRole
+            }),
             Expires = DateTime.UtcNow.AddHours(12),
             SigningCredentials = new SigningCredentials(
                 new SymmetricSecurityKey(key),
